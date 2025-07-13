@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Rating Review</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+        }
+        .container {
+            text-align: center;
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+        }
+        h2 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .stars {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .star {
+            font-size: 36px;
+            color: #e0e0e0;
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+        .star:hover,
+        .star.selected {
+            color: #ffca28;
+        }
+        .star:hover ~ .star {
+            color: #e0e0e0;
+        }
+        button {
+            padding: 12px 30px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        button:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            h2 {
+                font-size: 20px;
+            }
+            .star {
+                font-size: 30px;
+            }
+            button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Rate Your Experience</h2>
+        <div class="stars" id="stars">
+            <span class="star" data-value="1"><i class="fas fa-star"></i></span>
+            <span class="star" data-value="2"><i class="fas fa-star"></i></span>
+            <span class="star" data-value="3"><i class="fas fa-star"></i></span>
+            <span class="star" data-value="4"><i class="fas fa-star"></i></span>
+            <span class="star" data-value="5"><i class="fas fa-star"></i></span>
+        </div>
+        <button id="submit">Submit Rating</button>
+    </div>
+    <script>
+        const stars = document.querySelectorAll('.star');
+        const submitBtn = document.getElementById('submit');
+        let selectedRating = 0;
+
+        stars.forEach(star => {
+            star.addEventListener('mouseover', () => {
+                const value = parseInt(star.getAttribute('data-value'));
+                stars.forEach((s, index) => {
+                    s.classList.toggle('selected', index < value);
+                });
+            });
+
+            star.addEventListener('mouseout', () => {
+                stars.forEach(s => s.classList.remove('selected'));
+                if (selectedRating > 0) {
+                    for (let i = 0; i < selectedRating; i++) {
+                        stars[i].classList.add('selected');
+                    }
+                }
+            });
+
+            star.addEventListener('click', () => {
+                selectedRating = parseInt(star.getAttribute('data-value'));
+                stars.forEach(s => s.classList.remove('selected'));
+                for (let i = 0; i < selectedRating; i++) {
+                    stars[i].classList.add('selected');
+                }
+            });
+        });
+
+        submitBtn.addEventListener('click', () => {
+            if (selectedRating === 0) {
+                alert('Please select a rating.');
+                return;
+            }
+            if (selectedRating === 5) {
+                window.location.href = 'https://g.co/kgs/3U77sS2';
+            } else {
+                window.location.href = 'https://forms.gle/SdcvM2wf6AHCyLgd9';
+            }
+        });
+    </script>
+</body>
+</html>
